@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIESGO DE ACIDEMIA FETAL</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; }
+    h1 { color: #4B0082; text-align: center; }
+    form { background: white; padding: 20px; border-radius: 12px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin: 10px 0 5px; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; }
+    .seccion { background: #eee; padding: 10px; margin-top: 20px; border-left: 5px solid #4B0082; }
+    .submit { background: #4B0082; color: white; padding: 12px; border: none; width: 100%; border-radius: 6px; font-size: 16px; }
+    .resultado { margin-top: 20px; text-align: center; font-size: 18px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>RIESGO DE ACIDEMIA FETAL</h1>
+  <form id="formulario">
+    <div class="seccion">
+      <h3>Datos generales</h3>
+      <label>Nombre del paciente</label>
+      <input type="text" name="nombre" required>
+      <label>Correo electrónico</label>
+      <input type="email" name="correo" required>
+    </div>
+    <div class="seccion">
+      <h3>Factores Maternos</h3>
+      <label>Diabetes gestacional</label>
+      <select name="dm" required><option value="0">No</option><option value="1">Sí</option></select>
+    </div>
+    <div class="seccion">
+      <h3>Factores Uteroplacentarios</h3>
+      <label>Insuficiencia placentaria</label>
+      <select name="placenta" required><option value="0">No</option><option value="1">Sí</option></select>
+    </div>
+    <div class="seccion">
+      <h3>Factores Obstétricos</h3>
+      <label>Trabajo de parto prolongado</label>
+      <select name="trabajo_parto" required><option value="0">No</option><option value="1">Sí</option></select>
+    </div>
+    <div class="seccion">
+      <h3>Factores Fetales</h3>
+      <label>Meconio en líquido amniótico</label>
+      <select name="meconio" required><option value="0">No</option><option value="1">Sí</option></select>
+    </div>
+    <input type="submit" class="submit" value="Enviar evaluación">
+    <div class="resultado" id="resultado"></div>
+  </form>
+
+  <script>
+    document.getElementById('formulario').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      let puntaje = 0;
+      let datos = {};
+      for (let [key, value] of data.entries()) {
+        datos[key] = value;
+        if (!isNaN(value)) puntaje += parseInt(value);
+      }
+      datos['puntaje'] = puntaje;
+      datos['riesgo'] = puntaje >= 5 ? 'RIESGO ALTO' : (puntaje >= 3 ? 'RIESGO MODERADO' : 'RIESGO BAJO');
+      document.getElementById('resultado').textContent = `Resultado: ${datos['riesgo']}`;
+
+      fetch("https://script.google.com/macros/s/AKfycbw6NuOpLL3rpV1-0Sgim1hxOOEmOsD0ZCOj_pT5rn4Mui5oL2X5kkfesruwyE4hFabU/exec", {
+        method: "POST",
+        body: JSON.stringify(datos),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(r => r.text()).then(res => console.log(res));
+    });
+  </script>
+</body>
+</html>
