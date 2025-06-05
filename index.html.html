@@ -7,24 +7,35 @@
   <style>
     body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; text-align: center; }
     form { background: white; padding: 20px; border-radius: 12px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label, select { display: block; width: 100%; margin-top: 10px; }
-    .submit { background: #4B0082; color: white; padding: 10px; border: none; width: 100%; border-radius: 6px; cursor: pointer; margin-top: 15px; }
+    label, select { display: block; width: 100%; margin-top: 10px; font-size: 16px; }
+    .submit { background: #4B0082; color: white; padding: 12px; border: none; width: 100%; border-radius: 6px; cursor: pointer; font-size: 18px; margin-top: 15px; }
+    .submit:hover { background: #5A0099; }
+    
+    @media (max-width: 600px) {
+      form { width: 90%; padding: 15px; }
+      label, select { font-size: 14px; }
+      .submit { font-size: 16px; padding: 10px; }
+    }
   </style>
 </head>
 <body>
   <h1>Riesgo de Acidemia Fetal</h1>
   <form id="formulario">
-    <label>Diabetes gestacional:</label>
-    <select name="dm"><option value="0">No</option><option value="1">Sí</option></select>
+    <fieldset>
+      <legend>Factores de Riesgo</legend>
 
-    <label>Insuficiencia placentaria:</label>
-    <select name="placenta"><option value="0">No</option><option value="1">Sí</option></select>
+      <label for="dm">Diabetes gestacional:</label>
+      <select name="dm" id="dm"><option value="0">No</option><option value="1">Sí</option></select>
 
-    <label>Trabajo de parto prolongado:</label>
-    <select name="trabajo_parto"><option value="0">No</option><option value="1">Sí</option></select>
+      <label for="placenta">Insuficiencia placentaria:</label>
+      <select name="placenta" id="placenta"><option value="0">No</option><option value="1">Sí</option></select>
 
-    <label>Meconio en líquido amniótico:</label>
-    <select name="meconio"><option value="0">No</option><option value="1">Sí</option></select>
+      <label for="trabajo_parto">Trabajo de parto prolongado:</label>
+      <select name="trabajo_parto" id="trabajo_parto"><option value="0">No</option><option value="1">Sí</option></select>
+
+      <label for="meconio">Meconio en líquido amniótico:</label>
+      <select name="meconio" id="meconio"><option value="0">No</option><option value="1">Sí</option></select>
+    </fieldset>
 
     <input type="submit" class="submit" value="Evaluar">
   </form>
